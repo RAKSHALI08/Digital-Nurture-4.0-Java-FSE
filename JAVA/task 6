@@ -1,0 +1,29 @@
+public class DataTypeDemo {
+    public static void main(String[] args) {
+        int i = 10;
+        float f = 5.5f;
+        double d = 9.99;
+        char c = 'A';
+        boolean b = true;
+        System.out.println(i);
+        System.out.println(f);
+        System.out.println(d);
+        System.out.println(c);
+        System.out.println(b);
+    }
+}
+
+
+
+/*
+output
+10
+5.5
+9.99
+A
+true
+
+
+
+
+*/
