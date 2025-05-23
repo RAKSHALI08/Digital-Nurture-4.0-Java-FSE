@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,52 +12,30 @@
             margin-top: 15px;
             font-weight: bold;
         }
+        a {
+            display: block;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
     <h1>Find Events Near You</h1>
     <button onclick="findLocation()">Find Nearby Events</button>
     <p id="location"></p>
+    <div id="mapLink"></div>
 
     <script>
         function findLocation() {
             const locationElement = document.getElementById("location");
+            const mapLinkDiv = document.getElementById("mapLink");
 
-            if (!navigator.geolocation) {
-                locationElement.textContent = "Geolocation is not supported by your browser.";
-                return;
-            }
+            // Static sample coordinates for Bangalore, India
+            const lat = 12.9716;
+            const lon = 77.5946;
 
-            locationElement.textContent = "Locating...";
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude.toFixed(6);
-                    const lon = position.coords.longitude.toFixed(6);
-                    locationElement.textContent = `Your location: Latitude ${lat}, Longitude ${lon}`;
-                },
-                (error) => {
-                    switch (error.code) {
-                        case error.PERMISSION_DENIED:
-                            locationElement.textContent = "User denied the request for Geolocation.";
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            locationElement.textContent = "Location information is unavailable.";
-                            break;
-                        case error.TIMEOUT:
-                            locationElement.textContent = "The request to get your location timed out.";
-                            break;
-                        default:
-                            locationElement.textContent = "An unknown error occurred.";
-                            break;
-                    }
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
+            locationElement.textContent = `Your location: Latitude ${lat}, Longitude ${lon}`;
+            const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+            mapLinkDiv.innerHTML = `<a href="${mapUrl}" target="_blank">View on Google Maps</a>`;
         }
     </script>
 </body>
