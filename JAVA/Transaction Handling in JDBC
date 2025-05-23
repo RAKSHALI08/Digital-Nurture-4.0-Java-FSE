@@ -1,0 +1,60 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class TransactionHandling {
+    public static void transferMoney(Connection conn, int fromAccount, int toAccount, double amount) throws SQLException {
+        String debitSQL = "UPDATE accounts SET balance = balance - ? WHERE account_id = ?";
+        String creditSQL = "UPDATE accounts SET balance = balance + ? WHERE account_id = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            PreparedStatement debitStmt = conn.prepareStatement(debitSQL);
+            debitStmt.setDouble(1, amount);
+            debitStmt.setInt(2, fromAccount);
+            int debitResult = debitStmt.executeUpdate();
+
+            PreparedStatement creditStmt = conn.prepareStatement(creditSQL);
+            creditStmt.setDouble(1, amount);
+            creditStmt.setInt(2, toAccount);
+            int creditResult = creditStmt.executeUpdate();
+
+            if (debitResult == 1 && creditResult == 1) {
+                conn.commit();
+                System.out.println("Transfer successful");
+            } else {
+                conn.rollback();
+                System.out.println("Transfer failed, transaction rolled back");
+            }
+
+            debitStmt.close();
+            creditStmt.close();
+
+        } catch (SQLException e) {
+            conn.rollback();
+            System.out.println("Error occurred, transaction rolled back");
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
+        }
+    }
+
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/your_database"; // change your_database
+        String user = "root"; // your DB username
+        String password = "password"; // your DB password
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            transferMoney(conn, 1, 2, 500.0);
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+output
+Transfer successful
