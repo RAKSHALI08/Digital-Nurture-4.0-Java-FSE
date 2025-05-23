@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Feedback</title>
+    <style>
+        #enlargeImg {
+            width: 200px;
+            transition: width 0.3s;
+            cursor: pointer;
+        }
+        #enlargeImg.enlarged {
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Event Feedback Form</h1>
+    
+    <form>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" placeholder="Enter phone number" onblur="validatePhone()">
+        <p id="phoneError" style="color:red;"></p>
+
+        <label for="eventSelect">Select Event:</label>
+        <select id="eventSelect" onchange="showFee()">
+            <option value="">Choose an event</option>
+            <option value="Music Night - $20">Music Night</option>
+            <option value="Art Festival - $15">Art Festival</option>
+            <option value="Food Carnival - $10">Food Carnival</option>
+        </select>
+        <p id="feeDisplay"></p>
+
+        <label for="feedback">Your Feedback:</label>
+        <textarea id="feedback" onkeyup="countChars()" placeholder="Write your feedback here..." rows="4"></textarea>
+        <p>Character count: <span id="charCount">0</span></p>
+
+        <button type="button" onclick="submitFeedback()">Submit</button>
+        <p id="confirmationMsg" style="color:green;"></p>
+    </form>
+
+    <h2>Event Poster</h2>
+    <img src="Music Night.jpeg" alt="Event Poster" id="enlargeImg" ondblclick="enlargeImage()">
+
+    <script>
+        function validatePhone() {
+            const phone = document.getElementById("phone").value;
+            const error = document.getElementById("phoneError");
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                error.textContent = "Please enter a valid 10-digit phone number.";
+            } else {
+                error.textContent = "";
+            }
+        }
+
+        function showFee() {
+            const feeDisplay = document.getElementById("feeDisplay");
+            const event = document.getElementById("eventSelect").value;
+            feeDisplay.textContent = event ? "Fee: " + event.split(" - ")[1] : "";
+        }
+
+        function countChars() {
+            const text = document.getElementById("feedback").value;
+            document.getElementById("charCount").textContent = text.length;
+        }
+
+        function submitFeedback() {
+            document.getElementById("confirmationMsg").textContent = "Thank you for your feedback!";
+        }
+
+        function enlargeImage() {
+            const img = document.getElementById("enlargeImg");
+            img.classList.toggle("enlarged");
+        }
+    </script>
+</body>
+</html>
