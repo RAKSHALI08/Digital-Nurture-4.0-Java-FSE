@@ -1,0 +1,26 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class LambdaExpressions {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("Banana");
+        list.add("Apple");
+        list.add("Orange");
+        list.add("Mango");
+
+        Collections.sort(list, (s1, s2) -> s1.compareTo(s2));
+
+        for (String str : list) {
+            System.out.println(str);
+        }
+    }
+}
+
+
+output
+Apple
+Banana
+Mango
+Orange
