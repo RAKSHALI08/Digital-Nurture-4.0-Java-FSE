@@ -1,0 +1,112 @@
+Server.java
+
+import java.io.*;
+import java.net.*;
+
+public class Server {
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(12345)) {
+            System.out.println("Server started. Waiting for client...");
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client connected.");
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            String clientMsg, serverMsg;
+
+            // Server can send and receive messages in loop
+            while (true) {
+                if (in.ready()) {
+                    clientMsg = in.readLine();
+                    if (clientMsg == null || clientMsg.equalsIgnoreCase("bye")) {
+                        System.out.println("Client disconnected.");
+                        break;
+                    }
+                    System.out.println("Client: " + clientMsg);
+                }
+                if (console.ready()) {
+                    serverMsg = console.readLine();
+                    out.println(serverMsg);
+                    if (serverMsg.equalsIgnoreCase("bye")) {
+                        System.out.println("Server exiting.");
+                        break;
+                    }
+                }
+                // Slight pause to avoid busy wait
+                Thread.sleep(100);
+            }
+
+            clientSocket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+Client.java
+
+import java.io.*;
+import java.net.*;
+
+public class Client {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 12345)) {
+            System.out.println("Connected to server.");
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            String serverMsg, clientMsg;
+
+            // Client can send and receive messages in loop
+            while (true) {
+                if (in.ready()) {
+                    serverMsg = in.readLine();
+                    if (serverMsg == null || serverMsg.equalsIgnoreCase("bye")) {
+                        System.out.println("Server disconnected.");
+                        break;
+                    }
+                    System.out.println("Server: " + serverMsg);
+                }
+                if (console.ready()) {
+                    clientMsg = console.readLine();
+                    out.println(clientMsg);
+                    if (clientMsg.equalsIgnoreCase("bye")) {
+                        System.out.println("Client exiting.");
+                        break;
+                    }
+                }
+                Thread.sleep(100);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+output
+Server terminal output
+Server started. Waiting for client...
+Client connected.
+Client: Hello Server!
+Server: Hi Client!
+Client: How are you?
+Server: I'm good, thanks!
+Client: bye
+Client disconnected.
+
+
+Client terminal output
+Connected to server.
+Server: Hi Client!
+Server: I'm good, thanks!
+bye
+Client exiting.
