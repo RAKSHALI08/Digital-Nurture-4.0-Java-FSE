@@ -1,0 +1,48 @@
+  Demo.java
+public class Demo {
+    public void greet() {
+        System.out.println("Hello from Demo!");
+    }
+
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        d.greet();
+    }
+}
+
+Compile the class
+javac Demo.java
+
+Decompile the .class file
+You can use popular tools:
+
+JD-GUI (GUI tool)
+
+Download from: http://java-decompiler.github.io/
+
+Open Demo.class file, it shows the source code.
+
+CFR (Command Line)
+
+Download from: https://www.benf.org/other/cfr/
+
+Run:
+
+java -jar cfr.jar Demo.class
+
+Sample Decompiled Output
+public class Demo {
+    public Demo() {
+    }
+
+    public void greet() {
+        System.out.println("Hello from Demo!");
+    }
+
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        d.greet();
+    }
+}
+
+
