@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Community Event Gallery</title>
+    <style>
+        .event-img {
+            border: 2px solid #000;
+            width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Community Event Gallery</h1>
+    <table>
+        <tr>
+            <td>
+                <img src="Music Night.jpeg" alt="Music Night" title="Music Night 2024" class="event-img">
+                <p>Music Night</p>
+            </td>
+            <td>
+                <img src="Art Festival.jpeg" alt="Art Festival" title="Art Festival 2024" class="event-img">
+                <p>Art Festival</p>
+            </td>
+            <td>
+                <img src="Food Carnival.jpeg" alt="Food Carnival" title="Food Carnival 2024" class="event-img">
+                <p>Food Carnival</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="Book Fair.jpeg" alt="Book Fair" title="Book Fair 2024" class="event-img">
+                <p>Book Fair</p>
+            </td>
+            <td>
+                <img src="Dance Show.jpeg" alt="Dance Show" title="Dance Show 2024" class="event-img">
+                <p>Dance Show</p>
+            </td>
+            <td>
+                <img src="Community Meetup.jpeg" alt="Community Meetup" title="Community Meetup 2024" class="event-img">
+                <p>Community Meetup</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
