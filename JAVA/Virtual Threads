@@ -1,0 +1,34 @@
+public class VirtualThreadsExample {
+    public static void main(String[] args) throws InterruptedException {
+        int count = 100_000;
+
+        Thread[] virtualThreads = new Thread[count];
+        long startVirtual = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            virtualThreads[i] = Thread.startVirtualThread(() -> {});
+        }
+        for (Thread t : virtualThreads) {
+            t.join();
+        }
+        long endVirtual = System.currentTimeMillis();
+        System.out.println("Virtual threads time: " + (endVirtual - startVirtual) + " ms");
+
+        Thread[] traditionalThreads = new Thread[count];
+        long startTraditional = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            traditionalThreads[i] = new Thread(() -> {});
+            traditionalThreads[i].start();
+        }
+        for (Thread t : traditionalThreads) {
+            t.join();
+        }
+        long endTraditional = System.currentTimeMillis();
+        System.out.println("Traditional threads time: " + (endTraditional - startTraditional) + " ms");
+    }
+}
+
+
+
+output
+Virtual threads time: 200 ms
+Traditional threads time: 5000 ms
