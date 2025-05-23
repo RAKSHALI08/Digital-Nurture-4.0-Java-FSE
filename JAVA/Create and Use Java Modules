@@ -1,0 +1,36 @@
+Module 1: com.utils
+
+module com.utils {
+    exports com.utils;
+}
+
+StringUtils.java
+package com.utils;
+
+public class StringUtils {
+    public static String greet(String name) {
+        return "Hello, " + name + "!";
+    }
+}
+
+
+Module 2: com.greetings
+module-info.java
+module com.greetings {
+    requires com.utils;
+}
+Main.java
+package com.greetings;
+
+import com.utils.StringUtils;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(StringUtils.greet("Rakshali"));
+    }
+}
+
+
+
+output
+Hello, Rakshali!
