@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Event Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { background-color: #f4f4f4; }
+    #welcomeBanner { background-color: blue; color: white; padding: 10px; text-align: center; }
+  </style>
+</head>
+<body onload="pageLoaded()">
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#home">Home</a> |
+    <a href="#events">Events</a> |
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Welcome Banner -->
+  <div id="welcomeBanner">
+    Welcome to the Community Portal! <span style="color: red; font-weight: bold;">Special Offer!</span>
+  </div>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h2>Upcoming Events</h2>
+    <div id="eventContainer"></div>
+  </section>
+
+  <!-- Event Registration Form -->
+  <section id="events">
+    <h2>Register for an Event</h2>
+    <form id="eventForm">
+      <input type="text" name="name" placeholder="Name" required autofocus />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="date" name="date" required />
+      <select name="eventType" id="eventType" onchange="savePreference(this.value)">
+        <option value="">Select Event</option>
+        <option value="Music">Music</option>
+        <option value="Art">Art</option>
+        <option value="Workshop">Workshop</option>
+      </select>
+      <textarea name="message" placeholder="Any message?" onkeyup="countChars(this)"></textarea>
+      <output id="charCount"></output>
+      <button type="submit">Register</button>
+    </form>
+    <p id="confirmation"></p>
+    <button onclick="clearPreferences()">Clear Preferences</button>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Find Events Near You</h2>
+    <button onclick="findNearby()">Find Nearby Events</button>
+    <p id="locationResult"></p>
+  </section>
+
+  <!-- Video -->
+  <section>
+    <h2>Event Promo</h2>
+    <video width="320" controls oncanplay="videoReady()">
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <p id="videoMsg"></p>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
