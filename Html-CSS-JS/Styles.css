@@ -1,0 +1,49 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navigation */
+nav {
+  background: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Event Cards */
+.eventCard {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 10px;
+  margin: 20px;
+}
+
+textarea {
+  height: 100px;
+}
+
+output {
+  font-size: 12px;
+  color: gray;
+}
