@@ -1,1 +1,217 @@
 📄 index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Event Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { background-color: #f4f4f4; }
+    #welcomeBanner { background-color: blue; color: white; padding: 10px; text-align: center; }
+  </style>
+</head>
+<body onload="pageLoaded()">
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#home">Home</a> |
+    <a href="#events">Events</a> |
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Welcome Banner -->
+  <div id="welcomeBanner">
+    Welcome to the Community Portal! <span style="color: red; font-weight: bold;">Special Offer!</span>
+  </div>
+
+  <!-- Home Section -->
+  <section id="home">
+    <h2>Upcoming Events</h2>
+    <div id="eventContainer"></div>
+  </section>
+
+  <!-- Event Registration Form -->
+  <section id="events">
+    <h2>Register for an Event</h2>
+    <form id="eventForm">
+      <input type="text" name="name" placeholder="Name" required autofocus />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="date" name="date" required />
+      <select name="eventType" id="eventType" onchange="savePreference(this.value)">
+        <option value="">Select Event</option>
+        <option value="Music">Music</option>
+        <option value="Art">Art</option>
+        <option value="Workshop">Workshop</option>
+      </select>
+      <textarea name="message" placeholder="Any message?" onkeyup="countChars(this)"></textarea>
+      <output id="charCount"></output>
+      <button type="submit">Register</button>
+    </form>
+    <p id="confirmation"></p>
+    <button onclick="clearPreferences()">Clear Preferences</button>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Find Events Near You</h2>
+    <button onclick="findNearby()">Find Nearby Events</button>
+    <p id="locationResult"></p>
+  </section>
+
+  <!-- Video -->
+  <section>
+    <h2>Event Promo</h2>
+    <video width="320" controls oncanplay="videoReady()">
+      <source src="event-promo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <p id="videoMsg"></p>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
+
+
+
+🎨 styles.css
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navigation */
+nav {
+  background: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Event Cards */
+.eventCard {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 10px;
+  margin: 20px;
+}
+
+textarea {
+  height: 100px;
+}
+
+output {
+  font-size: 12px;
+  color: gray;
+}
+
+
+🧠 main.js
+
+console.log("Welcome to the Community Portal");
+
+function pageLoaded() {
+  alert("Page fully loaded!");
+  loadEvents();
+  restorePreference();
+}
+
+const events = [
+  { name: "Music Fiesta", date: "2025-06-10", seats: 10, category: "Music" },
+  { name: "Art Expo", date: "2025-06-05", seats: 0, category: "Art" },
+  { name: "Baking Workshop", date: "2025-07-01", seats: 5, category: "Workshop" }
+];
+
+function loadEvents() {
+  const container = document.getElementById("eventContainer");
+  events.forEach(event => {
+    if (new Date(event.date) > new Date() && event.seats > 0) {
+      const card = document.createElement("div");
+      card.className = "eventCard";
+      card.innerHTML = `
+        <h3>${event.name}</h3>
+        <p>Date: ${event.date}</p>
+        <p>Seats Left: ${event.seats}</p>
+        <button onclick="register('${event.name}')">Register</button>
+      `;
+      container.appendChild(card);
+    }
+  });
+}
+
+function register(eventName) {
+  try {
+    alert(`You registered for ${eventName}`);
+  } catch (e) {
+    console.error("Registration failed", e);
+  }
+}
+
+document.getElementById("eventForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  document.getElementById("confirmation").innerText = "Thank you for registering!";
+});
+
+function countChars(el) {
+  document.getElementById("charCount").innerText = `Characters: ${el.value.length}`;
+}
+
+function videoReady() {
+  document.getElementById("videoMsg").innerText = "Video ready to play!";
+}
+
+function savePreference(value) {
+  localStorage.setItem("preferredEvent", value);
+}
+
+function restorePreference() {
+  const saved = localStorage.getItem("preferredEvent");
+  if (saved) {
+    document.getElementById("eventType").value = saved;
+  }
+}
+
+function clearPreferences() {
+  localStorage.clear();
+  sessionStorage.clear();
+  alert("Preferences cleared.");
+}
+
+function findNearby() {
+  if (!navigator.geolocation) {
+    return alert("Geolocation is not supported");
+  }
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      document.getElementById("locationResult").innerText =
+        `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+    },
+    error => {
+      document.getElementById("locationResult").innerText = "Unable to get location.";
+    },
+    { enableHighAccuracy: true, timeout: 5000 }
+  );
+}
